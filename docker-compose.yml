@@ -1,0 +1,66 @@
+version: "3.8"
+
+# Listing containers or "services", as known by Docker Compose.
+services:
+    # Defining MySQL container.
+    # "mysql" will be the network alias for this container.
+    mysql:
+        image: mysql/mysql-server:8.0.26
+        container_name: magento-mysql
+        networks:
+            - magento-network
+        ports:
+            - "3306:3306"
+        volumes:
+            - magento-mysql-data:/var/lib/mysql
+        environment:
+            - "MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}"
+            - "MYSQL_USER=${MYSQL_USER}"
+            - "MYSQL_PASSWORD=${MYSQL_USER_PASSWORD}"
+            - "MYSQL_DATABASE=${MYSQL_DATABASE}"
+
+    # Defining Elasticsearch container
+    # "elasticsearch" will be the network alias for this container.
+    elasticsearch:
+        image: docker.elastic.co/elasticsearch/elasticsearch:7.9.3-arm64
+        container_name: magento-elastic
+        networks:
+            - magento-network
+        ports:
+            - "9200:9200"
+            - "9300:9300"
+        environment:
+            discovery.type: single-node
+            bootstrap.memory_lock: true
+        ulimits:
+            memlock:
+                soft: -1
+                hard: -1
+
+    # Defining custom Magento 2 web container.
+    # "web" will be the network alias for this container.
+    web:
+        # The build section tells Docker Compose how to build the image.
+        # This essentially runs a "docker build" command.
+        build:
+            context: .
+            dockerfile: Dockerfile
+            args:
+                USER: magento
+                UID: 1000
+                GID: 1000
+        container_name: magento-web
+        networks:
+            - magento-network
+        ports:
+            - "5000:5000"
+        volumes:
+            - ${MAGENTO_ABSOLUTE_PATH}:/workspaces/magento
+
+# The volume that is used by the MySQL container
+volumes:
+    magento-mysql-data:
+
+# The network where all the containers will live
+networks:
+    magento-network:

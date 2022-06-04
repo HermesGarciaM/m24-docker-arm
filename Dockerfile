@@ -25,16 +25,16 @@ RUN echo "tzdata tzdata/Areas select America" > /tmp/preseed.txt; \
 
 
 RUN add-apt-repository ppa:ondrej/php
-RUN apt-get update && apt-get install -y php7.4
+RUN apt-get update && apt-get install -y php8.1
 RUN apt-get update && apt-get install -y \
-    php7.4-mysql php7.4-xml php7.4-intl php7.4-curl \
-    php7.4-bcmath php7.4-gd php7.4-mbstring php7.4-soap php7.4-zip \
+    php8.1-mysql php8.1-xml php8.1-intl php8.1-curl \
+    php8.1-bcmath php8.1-gd php8.1-mbstring php8.1-soap php8.1-zip \
     composer
 
 # Install Xdebug for a better developer experience.
-RUN apt-get update && apt-get install -y php7.4-xdebug
-RUN echo "xdebug.remote_enable=on" >> /etc/php/7.4/mods-available/xdebug.ini
-RUN echo "xdebug.remote_autostart=on" >> /etc/php/7.4/mods-available/xdebug.ini
+RUN apt-get update && apt-get install -y php8.1-xdebug
+RUN echo "xdebug.remote_enable=on" >> /etc/php/8.1/mods-available/xdebug.ini
+RUN echo "xdebug.remote_autostart=on" >> /etc/php/8.1/mods-available/xdebug.ini
 
 # Install mysql CLI client.
 RUN apt-get update && apt-get install -y mysql-client

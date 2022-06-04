@@ -6,13 +6,13 @@ services:
     # "mysql" will be the network alias for this container.
     mysql:
         image: mysql/mysql-server:8.0.26
-        container_name: magento-mysql
+        container_name: magento-mysql2
         networks:
-            - magento-network
+            - magento-network2
         ports:
             - "3306:3306"
         volumes:
-            - magento-mysql-data:/var/lib/mysql
+            - magento-mysql-data2:/var/lib/mysql
         environment:
             - "MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}"
             - "MYSQL_USER=${MYSQL_USER}"
@@ -23,9 +23,9 @@ services:
     # "elasticsearch" will be the network alias for this container.
     elasticsearch:
         image: docker.elastic.co/elasticsearch/elasticsearch:7.9.3-arm64
-        container_name: magento-elastic
+        container_name: magento-elastic2
         networks:
-            - magento-network
+            - magento-network2
         ports:
             - "9200:9200"
             - "9300:9300"
@@ -49,18 +49,18 @@ services:
                 USER: magento
                 UID: 1000
                 GID: 1000
-        container_name: magento-web
+        container_name: magento-web2
         networks:
-            - magento-network
+            - magento-network2
         ports:
-            - "5001:5001"
+            - "5002:5002"
         volumes:
             - ${MAGENTO_ABSOLUTE_PATH}:/workspaces/magento
 
 # The volume that is used by the MySQL container
 volumes:
-    magento-mysql-data:
+    magento-mysql-data2:
 
 # The network where all the containers will live
 networks:
-    magento-network:
+    magento-network2:

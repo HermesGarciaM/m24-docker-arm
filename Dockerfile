@@ -9,6 +9,21 @@ ARG GID=1000
 # Install PHP, composer and all extensions needed for Magento.
 RUN apt-get update && apt-get install -y software-properties-common curl
 
+
+
+## for apt to be noninteractive
+ENV DEBIAN_FRONTEND noninteractive
+ENV DEBCONF_NONINTERACTIVE_SEEN true
+
+## preesed tzdata, update package index, upgrade packages and install needed software
+RUN echo "tzdata tzdata/Areas select America" > /tmp/preseed.txt; \
+    echo "tzdata tzdata/Zones/America select Chicago" >> /tmp/preseed.txt; \
+    debconf-set-selections /tmp/preseed.txt && \
+    apt-get update && \
+    apt-get install -y tzdata
+
+
+
 RUN add-apt-repository ppa:ondrej/php
 RUN apt-get update && apt-get install -y php7.4
 RUN apt-get update && apt-get install -y \

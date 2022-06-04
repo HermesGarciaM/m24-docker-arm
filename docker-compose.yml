@@ -53,7 +53,7 @@ services:
         networks:
             - magento-network
         ports:
-            - "5000:5000"
+            - "5001:5001"
         volumes:
             - ${MAGENTO_ABSOLUTE_PATH}:/workspaces/magento
 

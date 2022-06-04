@@ -28,7 +28,7 @@ Replace next variables into `.env`:
 ###### PHP 7.4 and modules, Composer, Xdebug preinstalled 
 - Name: `magento-web`
 - Image: Build from `ubuntu`
-- Port: `5000:5000`
+- Port: `5001:5001`
 - Volume: `${MAGENTO_ABSOLUTE_PATH}:/workspaces/magento`
 
 #### Config
@@ -53,7 +53,7 @@ This absolute path is where Magento will be installed or already is installed.
 - Install Magento via CLI (replace {{vars}} with the ones written on `.env`):
 ```
 bin/magento setup:install \
-  --base-url=http://magentodev.com:5000 \
+  --base-url=http://magentodev.com:5001 \
   --db-host=mysql \
   --db-name={{dbName}} \
   --db-user={{dbUser}} \
@@ -70,15 +70,15 @@ bin/magento setup:install \
   --elasticsearch-host=elasticsearch \
   --elasticsearch-port=9200
 ```
-- Fire up via the PHP built in server: `php -S 0.0.0.0:5000 -t ./pub/ ./phpserver/router.php`
-- Go to http://magentodev.com:5000 in browser
+- Fire up via the PHP built in server: `php -S 0.0.0.0:5001 -t ./pub/ ./phpserver/router.php`
+- Go to http://magentodev.com:5001 in browser
 
 #### Existing Project - BYODB (Bring Your Own DB)
 
 - Import your existing DB from out of containers with
 `mysql -h localhost -P 3306 --protocol=tcp -u{{dbUser}} -p magento < /path/to/file.sql`
-- Fire up via the PHP built in server: php -S 0.0.0.0:5000 -t ./pub/ ./phpserver/router.php
-- Go to http://yourdomain.com:5000 in browser
+- Fire up via the PHP built in server: php -S 0.0.0.0:5001 -t ./pub/ ./phpserver/router.php
+- Go to http://yourdomain.com:5001 in browser
 
 ##  Magento CLI
 
